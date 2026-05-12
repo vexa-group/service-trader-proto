@@ -1,0 +1,21 @@
+name: Security Scan
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  schedule:
+    - cron: "0 0 * * 1" # Run every Monday at midnight
+
+jobs:
+  govulncheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run govulncheck
+        uses: golang/govulncheck-action@v1
+        with:
+          go-version-file: go.mod
