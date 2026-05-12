@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package track;
+
+import "google/protobuf/timestamp.proto";
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/track;track";
+
+// Track service definition.
+service TrackService {
+  rpc Get(GetRequest) returns (Track);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// Track message.
+message Track {
+  string uid = 1;
+  string source_exchange_uid = 2;
+  string source_coin_uid = 3;
+  string target_exchange_uid = 4;
+  string target_coin_uid = 5;
+  string code = 6;
+  string name = 7;
+  int32 base_score = 8;
+  int32 campaign_score = 9;
+  int32 score = 10;
+  bool active = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
+}
+
+// Request message for Get Track.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List Track.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List Track.
+message FilterRequest {
+  repeated string uids = 1;
+  optional string source_exchange_uid = 2;
+  optional string source_coin_uid = 3;
+  optional string target_exchange_uid = 4;
+  optional string target_coin_uid = 5;
+  optional string code = 6;
+  optional bool active = 7;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated Track items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

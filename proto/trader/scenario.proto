@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package scenario;
+
+import "google/protobuf/timestamp.proto";
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/scenario;scenario";
+
+// Scenario service definition.
+service ScenarioService {
+  rpc Get(GetRequest) returns (Scenario);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// Scenario message.
+message Scenario {
+  string uid = 1;
+  string strategy_uid = 2;
+  string exchange_uid = 3;
+  string coin_uid = 4;
+  string code = 5;
+  optional string name = 6;
+  optional string invest = 7;
+  optional string profit = 8;
+  string status = 9;
+  int32 base_score = 10;
+  int32 track_score = 11;
+  int32 score = 12;
+  optional string description = 13;
+  optional string signature = 14;
+  google.protobuf.Timestamp created_at = 15;
+  google.protobuf.Timestamp updated_at = 16;
+}
+
+// Request message for Get Scenario.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List Scenario.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List Scenario.
+message FilterRequest {
+  repeated string uids = 1;
+  optional string strategy_uid = 2;
+  optional string exchange_uid = 3;
+  optional string coin_uid = 4;
+  optional string code = 5;
+  optional string name = 6;
+  optional string status = 7;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated Scenario items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

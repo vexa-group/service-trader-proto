@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package balance_entry_source;
+
+import "google/protobuf/timestamp.proto";
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/balance_entry_source;balance_entry_source";
+
+// BalanceEntrySource service definition.
+service BalanceEntrySourceService {
+  rpc Get(GetRequest) returns (BalanceEntrySource);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// BalanceEntrySource message.
+message BalanceEntrySource {
+  string uid = 1;
+  string balance_entry_uid = 2;
+  string exchange_uid = 3;
+  string coin_uid = 4;
+  string amount = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// Request message for Get BalanceEntrySource.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List BalanceEntrySource.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List BalanceEntrySource.
+message FilterRequest {
+  repeated string uids = 1;
+  optional string balance_entry_uid = 2;
+  optional string exchange_uid = 3;
+  optional string coin_uid = 4;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated BalanceEntrySource items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

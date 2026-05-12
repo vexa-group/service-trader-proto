@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package campaign;
+
+import "google/protobuf/timestamp.proto";
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/campaign;campaign";
+
+// Campaign service definition.
+service CampaignService {
+  rpc Get(GetRequest) returns (Campaign);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// Campaign message.
+message Campaign {
+  string uid = 1;
+  string strategy_uid = 2;
+  string scenario_uid = 3;
+  string exchange_uid = 4;
+  string coin_uid = 5;
+  string code = 6;
+  string name = 7;
+  optional string invest = 8; // sementara sampai semua data sudah ada
+  optional string profit = 9; // sementara sampai semua data sudah ada
+  string status = 10;
+  int32 priority = 11;
+  optional string description = 12;
+  optional string signature = 13;
+  optional google.protobuf.Timestamp date_report = 14;
+  google.protobuf.Timestamp created_at = 15;
+  google.protobuf.Timestamp updated_at = 16;
+}
+
+// Request message for Get Campaign.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List Campaign.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List Campaign.
+message FilterRequest {
+  repeated string uids = 1;
+  optional string scenario_uid = 2;
+  optional string strategy_uid = 3;
+  optional string exchange_uid = 4;
+  optional string coin_uid = 5;
+  optional string code = 6;
+  optional string name = 7;
+  optional string status = 8;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated Campaign items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

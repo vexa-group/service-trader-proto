@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package campaign_action;
+
+import "google/protobuf/timestamp.proto";
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/campaign_action;campaign_action";
+
+// CampaignAction service definition.
+service CampaignActionService {
+  rpc Get(GetRequest) returns (CampaignAction);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// CampaignAction message.
+message CampaignAction {
+  string uid = 1;
+  string campaign_uid = 2;
+  int32 num = 3;
+  string name = 4;
+  string track_uid = 5;
+  optional string side = 6;
+  optional string amount = 7;
+  optional string price = 8;
+  optional string fee = 9;
+  optional string total = 10;
+  string status = 11;
+  optional string description = 12;
+  optional string signature = 13;
+  google.protobuf.Timestamp created_at = 14;
+  google.protobuf.Timestamp updated_at = 15;
+}
+
+// Request message for Get CampaignAction.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List CampaignAction.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List CampaignAction.
+message FilterRequest {
+  repeated string uids = 1;
+  optional string campaign_uid = 2;
+  optional int32 num = 3;
+  optional string track_uid = 4;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated CampaignAction items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

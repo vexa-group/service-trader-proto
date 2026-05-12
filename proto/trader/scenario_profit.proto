@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package scenario_profit;
+
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/scenario_profit;scenario_profit";
+
+// ScenarioProfit service definition.
+service ScenarioProfitService {
+  rpc Get(GetRequest) returns (ScenarioProfit);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// ScenarioProfit message.
+message ScenarioProfit {
+  string uid = 1;
+  string scenario_uid = 2;
+  string coin_uid = 3;
+  int32 precision = 4;
+  string balance = 5;
+}
+
+// Request message for Get ScenarioProfit.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List ScenarioProfit.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List ScenarioProfit.
+message FilterRequest {
+  repeated string uids = 1;
+  optional string scenario_uid = 2;
+  optional string coin_uid = 3;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated ScenarioProfit items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

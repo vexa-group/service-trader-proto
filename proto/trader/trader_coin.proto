@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package trader_coin;
+
+import "google/protobuf/timestamp.proto";
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/trader_coin;trader_coin";
+
+// TraderCoin service definition.
+service TraderCoinService {
+  rpc Get(GetRequest) returns (TraderCoin);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// TraderCoin message.
+message TraderCoin {
+  string uid = 1;
+  bool primary = 2;
+  bool secondary = 3;
+  bool holder = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+// Request message for Get TraderCoin.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List TraderCoin.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List TraderCoin.
+message FilterRequest {
+  repeated string uids = 1;
+  optional bool primary = 2;
+  optional bool secondary = 3;
+  optional bool holder = 4;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated TraderCoin items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

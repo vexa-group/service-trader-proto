@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package scenario_wallet;
+
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/scenario_wallet;scenario_wallet";
+
+// ScenarioWallet service definition.
+service ScenarioWalletService {
+  rpc Get(GetRequest) returns (ScenarioWallet);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// Scenario message.
+message ScenarioWallet {
+  string uid = 1;
+  string scenario_uid = 2;
+  string exchange_uid = 3;
+  string coin_uid = 4;
+  int32 precision = 5;
+  string balance = 6;
+  string result = 7;
+}
+
+// Request message for Get ScenarioWallet.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List ScenarioWallet.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List ScenarioWallet.
+message FilterRequest {
+  repeated string uids = 1;
+  optional string scenario_uid = 2;
+  optional string exchange_uid = 3;
+  optional string coin_uid = 4;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated ScenarioWallet items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}
