@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package setting;
+
+import "google/protobuf/struct.proto";
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/setting;setting";
+
+// Setting service definition.
+service SettingService {
+  rpc Get(GetRequest) returns (Setting);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// Setting message.
+message Setting {
+  string key = 1;
+  google.protobuf.Struct value = 2;
+}
+
+// Request message for Get Setting.
+message GetRequest {
+  string key = 1;
+}
+
+// Request message for List Setting.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List Setting.
+message FilterRequest {
+  repeated string keys = 1;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated Setting items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package scenario_action;
+
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/scenario_action;scenario_action";
+
+// ScenarioAction service definition.
+service ScenarioActionService {
+  rpc Get(GetRequest) returns (ScenarioAction);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// ScenarioAction message.
+message ScenarioAction {
+  string uid = 1;
+  string scenario_uid = 2;
+  int32 num = 3;
+  string name = 4;
+  string track_uid = 5;
+  optional string side = 6;
+  optional string amount = 7;
+  optional string price = 8;
+  optional string fee = 9;
+  optional string total = 10;
+  optional string signature = 11;
+}
+
+// Request message for Get ScenarioAction.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List ScenarioAction.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List ScenarioAction.
+message FilterRequest {
+  repeated string uids = 1;
+  optional string scenario_uid = 2;
+  optional int32 num = 3;
+  optional string track_uid = 4;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated ScenarioAction items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package campaign_profit;
+
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/campaign_profit;campaign_profit";
+
+// CampaignProfit service definition.
+service CampaignProfitService {
+  rpc Get(GetRequest) returns (CampaignProfit);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// CampaignProfit message.
+message CampaignProfit {
+  string uid = 1;
+  string campaign_uid = 2;
+  string coin_uid = 3;
+  int32 precision = 4;
+  string estimated = 5;
+  string result = 6;
+}
+
+// Request message for Get CampaignProfit.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List CampaignProfit.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List CampaignProfit.
+message FilterRequest {
+  repeated string uids = 1;
+  optional string campaign_uid = 2;
+  optional string coin_uid = 4;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated CampaignProfit items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

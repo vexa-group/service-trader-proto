@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "service-trader-proto"
+version = "0.1.0"
+description = "Protocol Buffer definitions and gRPC contracts for Trader Service"
+authors = [
+	"Aditya <aditya.kw90@gmail.com>",
+	"Aditya <aditya@mtamedia.co.id>"
+]
+readme = "README.md"
+packages = [
+    { include = "service_trader_proto", from = "gen/python" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+protobuf = "^6.33.6"
+grpcio = "1.80.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.0.0"
+grpcio-tools = "1.80.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

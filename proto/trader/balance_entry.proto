@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package balance_entry;
+
+import "google/protobuf/timestamp.proto";
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/balance_entry;balance_entry";
+
+// BalanceEntry service definition.
+service BalanceEntryService {
+  rpc Get(GetRequest) returns (BalanceEntry);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// BalanceEntry message.
+message BalanceEntry {
+  string uid = 1;
+  string balance_uid = 2;
+  string amount = 3;
+  string stock_price = 4;
+  string stock_value = 5;
+  bool locked = 6;
+  optional string locked_key = 7;
+  optional string ref = 8;
+  optional string ref_uid = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+// Request message for Get BalanceEntry.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List BalanceEntry.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List BalanceEntry.
+message FilterRequest {
+  repeated string uids = 1;
+  optional string balance_uid = 2;
+  optional bool locked = 3;
+  optional string locked_key = 4;
+  optional string ref = 5;
+  optional string ref_uid = 6;
+  optional string query = 7;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated BalanceEntry items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

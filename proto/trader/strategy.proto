@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package strategy;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+import "trader/common.proto";  // Import the common proto
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/strategy;strategy";
+
+// Strategy service definition.
+service StrategyService {
+  rpc Get(GetRequest) returns (Strategy);
+  rpc List(ListRequest) returns (ListResponse);
+}
+
+// Strategy message.
+message Strategy {
+  string uid = 1;
+  string name = 2;
+  optional string description = 3;
+  google.protobuf.Struct config = 4;
+  bool active = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+// Request message for Get Strategy.
+message GetRequest {
+  string uid = 1;
+}
+
+// Request message for List Strategy.
+message ListRequest {
+  common.Pagination pagination = 1;
+  FilterRequest filter=2;
+}
+
+// Filter message for request List Strategy.
+message FilterRequest {
+  repeated string uids = 1;
+  optional string name = 2;
+  optional bool active = 3;
+}
+
+// Response message containing a list of items.
+message ListResponse {
+  repeated Strategy items = 1;
+  common.Meta meta = 2;  // Use Meta from the imported common.proto
+}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package common;
+
+option go_package = "github.com/vexa-group/service-trader-proto/gen/go/common;common";
+
+// Metadata message for pagination.
+message Meta {
+  int32 page = 1;  // The current page of result
+  int32 limit = 2;  // The number of items per page
+  int64 total = 3;  // The total number of items available
+  int32 pages = 4;  // The total number of pages available
+}
+
+// Pagination message for request.
+message Pagination {
+  int32 page = 1;         // The page number to retrieve
+  int32 limit = 2;        // The number of items per page
+  string order_by = 3;    // what field to use for ordering
+  string sort = 4;        // asc or desc
+}
